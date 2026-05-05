@@ -1,0 +1,27 @@
+from qiskit import QuantumCircuit
+from qiskit_aer import Aer
+from qiskit import transpile
+
+qc = QuantumCircuit(2,2)
+
+# Step 1: superposition
+qc.h([0,1])
+
+# Step 2: oracle (mark |11>)
+qc.cz(0,1)
+
+# Step 3: diffusion
+qc.h([0,1])
+qc.x([0,1])
+qc.cz(0,1)
+qc.x([0,1])
+qc.h([0,1])
+
+qc.measure([0,1],[0,1])
+
+backend = Aer.get_backend('qasm_simulator')
+compiled = transpile(qc, backend)
+result = backend.run(compiled, shots=1000).result()
+
+print(result.get_counts())
+print(qc.draw())
