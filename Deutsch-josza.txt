@@ -1,0 +1,26 @@
+from qiskit import QuantumCircuit
+from qiskit_aer import Aer
+from qiskit import transpile
+
+n = 3
+qc = QuantumCircuit(n+1, n)
+
+qc.x(n)
+
+qc.h(range(n+1))
+
+# Oracle (balanced)
+qc.cx(0,n)
+qc.cx(1,n)
+qc.cx(2,n)
+
+qc.h(range(n))
+
+qc.measure(range(n), range(n))
+
+backend = Aer.get_backend('qasm_simulator')
+compiled = transpile(qc, backend)
+result = backend.run(compiled, shots=1000).result()
+
+print(result.get_counts())
+print(qc.draw())
