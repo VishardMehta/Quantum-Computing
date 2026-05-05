@@ -1,0 +1,22 @@
+from qiskit import QuantumCircuit, Aer, execute
+
+qc = QuantumCircuit(2,2)
+
+# Step 1: Create Bell state
+qc.h(0)
+qc.cx(0,1)
+
+# Step 2: Encode message (example: 10)
+qc.z(0)
+
+# Step 3: Decode
+qc.cx(0,1)
+qc.h(0)
+
+qc.measure([0,1],[0,1])
+
+backend = Aer.get_backend('qasm_simulator')
+result = execute(qc, backend, shots=1000).result()
+
+print(result.get_counts())
+print(qc.draw())
