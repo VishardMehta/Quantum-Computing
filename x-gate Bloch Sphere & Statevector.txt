@@ -1,0 +1,19 @@
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import Statevector
+from qiskit.visualization import plot_bloch_multivector
+import matplotlib.pyplot as plt
+
+qc = QuantumCircuit(1)
+
+qc.x(0)   # Apply X gate
+
+# Draw circuit
+print(qc.draw())
+
+# Get statevector
+state = Statevector.from_instruction(qc)
+print(state)
+
+# Bloch sphere
+plot_bloch_multivector(state)
+plt.show()
