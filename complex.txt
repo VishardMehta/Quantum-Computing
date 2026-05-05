@@ -1,0 +1,40 @@
+import math
+
+print("===== SECTION 4: COMPLEX NUMBERS =====")
+
+# input complex number
+real = float(input("Enter real part: "))
+imag = float(input("Enter imaginary part: "))
+
+z = complex(real, imag)
+
+print("Complex number:", z)
+
+# conjugate
+conj = z.conjugate()
+print("Conjugate:", conj)
+
+# second complex number
+real2 = float(input("Enter real part of second number: "))
+imag2 = float(input("Enter imaginary part of second number: "))
+
+z2 = complex(real2, imag2)
+
+print("Second complex number:", z2)
+
+# operations
+print("Addition:", z + z2)
+print("Subtraction:", z - z2)
+print("Multiplication:", z * z2)
+
+if z2 != 0:
+    print("Division:", z / z2)
+else:
+    print("Division not possible (divide by 0)")
+
+# as 2D vector
+print("As 2D vector:", (z.real, z.imag))
+
+# magnitude
+magnitude = abs(z)
+print("Magnitude:", magnitude)
