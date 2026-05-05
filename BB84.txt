@@ -1,0 +1,44 @@
+from qiskit import QuantumCircuit
+from qiskit_aer import Aer
+from qiskit import transpile
+import numpy as np
+
+n = 8
+
+alice_bits = np.random.randint(2, size=n)
+alice_basis = np.random.randint(2, size=n)
+bob_basis = np.random.randint(2, size=n)
+
+qc = QuantumCircuit(n, n)
+
+# Alice encoding
+for i in range(n):
+    if alice_bits[i] == 1:
+        qc.x(i)
+    if alice_basis[i] == 1:
+        qc.h(i)
+
+# Bob decoding
+for i in range(n):
+    if bob_basis[i] == 1:
+        qc.h(i)
+
+qc.measure(range(n), range(n))
+
+backend = Aer.get_backend('qasm_simulator')
+compiled = transpile(qc, backend)
+result = backend.run(compiled, shots=1).result()
+
+counts = result.get_counts()
+measured = list(counts.keys())[0]
+
+# Key extraction
+key = []
+for i in range(n):
+    if alice_basis[i] == bob_basis[i]:
+        key.append(int(measured[n-1-i]))
+print("Alice bits:", alice_bits)
+print("Alice basis:", alice_basis)
+print("Bob basis:", bob_basis)
+print("Measured:", measured)
+print("Final key:", key)
