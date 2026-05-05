@@ -1,0 +1,119 @@
+import numpy as np
+import math
+
+print("===== SECTION 1 =====")
+
+# a, b
+a = 1/math.sqrt(2)
+b = 1/math.sqrt(2)
+
+v = np.array([a, b])
+
+print("Vector:", v)
+
+# normalization check
+norm_val = a**2 + b**2
+print("Normalized:", abs(norm_val - 1) < 1e-6)
+
+# length
+print("Length:", np.linalg.norm(v))
+
+
+print("\n===== SECTION 2 =====")
+
+# input vector A
+n = int(input("Enter size of vector: "))
+A = []
+
+for i in range(n):
+    A.append(float(input("Enter element: ")))
+
+A = np.array(A)
+print("Vector A:", A)
+
+# input vector B
+B = []
+for i in range(n):
+    B.append(float(input("Enter element for B: ")))
+
+B = np.array(B)
+print("Vector B:", B)
+
+# function: normalized
+def is_normalized(v):
+    return abs(np.sum(v**2) - 1) < 1e-6
+
+# function: dot + cross
+def dot_cross(A, B):
+    dot = np.dot(A, B)
+    cross = None
+    if len(A) == 3:
+        cross = np.cross(A, B)
+    return dot, cross
+
+# function: unit vector
+def unit_vector(v):
+    return v / np.linalg.norm(v)
+
+print("A normalized:", is_normalized(A))
+
+dot, cross = dot_cross(A, B)
+print("Dot product:", dot)
+
+if cross is not None:
+    print("Cross product:", cross)
+else:
+    print("Cross product only for 3D vectors")
+
+print("Unit vector of A:", unit_vector(A))
+
+
+print("\n===== SECTION 3 =====")
+
+rows = int(input("Enter number of rows: "))
+cols = int(input("Enter number of columns: "))
+
+matrix = []
+for i in range(rows):
+    row = list(map(float, input("Enter row elements: ").split()))
+    matrix.append(row)
+
+M = np.array(matrix)
+
+print("Matrix:\n", M)
+
+# transpose
+print("Transpose:\n", M.T)
+
+# determinant
+if rows == cols:
+    det = np.linalg.det(M)
+    print("Determinant:", det)
+else:
+    print("Determinant not possible")
+
+# rank
+print("Rank:", np.linalg.matrix_rank(M))
+
+# trace
+if rows == cols:
+    print("Trace:", np.trace(M))
+else:
+    print("Trace not possible")
+
+# eigen
+if rows == cols:
+    eigval, eigvec = np.linalg.eig(M)
+    print("Eigenvalues:", eigval)
+    print("Eigenvectors:\n", eigvec)
+else:
+    print("Eigen not possible")
+
+# inverse
+if rows == cols:
+    if np.linalg.det(M) != 0:
+        print("Inverse:\n", np.linalg.inv(M))
+    else:
+        print("Inverse not possible (det = 0)")
+else:
+    print("Inverse not possible")
